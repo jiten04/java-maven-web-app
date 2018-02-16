@@ -37,7 +37,7 @@ pipeline {
             /* steps {
                 sh "docker build -t ${DOCKERHUB_USERNAME}_myapp:${BUILD_NUMBER} ."
             } */
-            node {
+            steps {
                 checkout scm
                 def customImage = docker.build("${env.DOCKERHUB_USERNAME}_myapp:${env.BUILD_ID}")
                 //customImage.push()
@@ -46,7 +46,7 @@ pipeline {
         
         // push the built image
         stage('Push image') {
-           node {
+           steps {
                 docker.withRegistry('https://cloud.docker.com/swarm/alamgirm/dashboard/onboarding/cloud-registry', 'dockerhub') {
                     def customImage = docker.build("${env.DOCKERHUB_USERNAME}_myapp:${env.BUILD_ID}")
                     customImage.push()
