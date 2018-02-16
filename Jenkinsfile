@@ -35,7 +35,7 @@ pipeline {
         
         stage('BuildDockerImage') {
             steps {
-                sh "docker build -t ${DOCKERHUB_USERNAME}/myapp:${BUILD_NUMBER} ."
+                sh "docker build -t ${DOCKERHUB_USERNAME}_myapp:${BUILD_NUMBER} ."
             }
         }
         
