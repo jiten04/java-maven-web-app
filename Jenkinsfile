@@ -40,13 +40,13 @@ pipeline {
         }
         
         // push the built image
-        //stage("DockerPush") {
-        //    steps {
-        //        withDockerRegistry([credentialsId: 'dockerhub']) {
-        //            sh "docker push ${DOCKERHUB_USERNAME}/myapp:${BUILD_NUMBER}"
-        //        }
-        //    }
-        //}
+        stage("DockerPush") {
+            steps {
+                withDockerRegistry([credentialsId: 'dockerhub']) {
+                    sh "docker push ${DOCKERHUB_USERNAME}_myapp:${BUILD_NUMBER}"
+                }
+            }
+        }
     
     }
 }
