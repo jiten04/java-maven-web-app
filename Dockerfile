@@ -10,4 +10,5 @@ RUN mkdir -p /usr/share/myapp/lib
 # Add the service itself
 ARG JAR_FILE
 ADD target/${JAR_FILE} /usr/share/myapp/
+EXPOSE 8080
 
