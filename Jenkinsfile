@@ -32,13 +32,13 @@ pipeline {
         */
         
         // Build docker iamge
-        /*
+        
         stage('BuildDockerImage') {
             steps {
                 sh "docker build -t ${DOCKERHUB_USERNAME}/myapp:${BUILD_NUMBER} ."
             }
         }
-        */
+        
         // push the built image
         //stage("DockerPush") {
         //    steps {
