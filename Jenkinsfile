@@ -34,16 +34,22 @@ pipeline {
         // Build docker iamge
         
         stage('BuildDockerImage') {
-            steps {
+            /* steps {
                 sh "docker build -t ${DOCKERHUB_USERNAME}_myapp:${BUILD_NUMBER} ."
+            } */
+            node {
+                checkout scm
+                def customImage = docker.build("${env.DOCKERHUB_USERNAME}_myapp:${env.BUILD_ID}")
+                //customImage.push()
             }
         }
         
         // push the built image
-        stage("DockerPush") {
-            steps {
-                withDockerRegistry([credentialsId: 'dockerhub']) {
-                    sh "docker push ${DOCKERHUB_USERNAME}_myapp:${BUILD_NUMBER}"
+        stage('Push image') {
+           node {
+                docker.withRegistry('https://cloud.docker.com/swarm/alamgirm/dashboard/onboarding/cloud-registry', 'dockerhub') {
+                    def customImage = docker.build("${env.DOCKERHUB_USERNAME}_myapp:${env.BUILD_ID}")
+                    customImage.push()
                 }
             }
         }
