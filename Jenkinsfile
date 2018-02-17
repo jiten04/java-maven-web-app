@@ -35,7 +35,8 @@ pipeline {
         // Build docker iamge 
         stage('BuildDockerImage') {
              steps {
-                sh "docker build -t ${DOCKERHUB_USERNAME}/myapp:${BUILD_NUMBER} -t ${DOCKERHUB_USERNAME}/myapp:latest ."
+                //sh "docker build -t ${DOCKERHUB_USERNAME}/myapp:${BUILD_NUMBER}  ."
+                 sh "docker build -t ${DOCKERHUB_USERNAME}/myapp:latest  ."
             }
         }
         
@@ -43,7 +44,8 @@ pipeline {
         stage('PushDockerImage') {
             steps {
                  withDockerRegistry([credentialsId: 'dockerhub', url: 'https://hub.docker.com/']) {
-                     sh "docker push ${DOCKERHUB_USERNAME}/myapp:${BUILD_NUMBER}"
+                     //sh "docker push ${DOCKERHUB_USERNAME}/myapp:${BUILD_NUMBER}"
+                     sh "docker push ${DOCKERHUB_USERNAME}/myapp:latest"
                  }
             }
         }
