@@ -31,14 +31,22 @@ pipeline {
         }
         */
         
-        // Build docker iamge
-        /*
+        // Build docker iamge 
         stage('BuildDockerImage') {
              steps {
                 sh "docker build -t ${DOCKERHUB_USERNAME}_myapp:${BUILD_NUMBER} ."
             }
         }
-        */
+        
+        // Push the built image
+        stage('BuildDockerImage') {
+            steps {
+                 withDockerRegistry([credentialsId: 'dockerhub', url: 'hhttps://hub.docker.com/']) {
+                     sh "docker push ${DOCKERHUB_USERNAME}_myapp:${BUILD_NUMBER}"
+                 }
+            }
+        }
+        
         // push the built image
        /* stage('Push image') {
            steps {
@@ -48,10 +56,5 @@ pipeline {
                 }
             }
         }*/
-    }
-    
-    node {
-        checkout scm
-        def customImage = docker.build("${env.DOCKERHUB_USERNAME}_myapp:${env.BUILD_ID}")
     }
 }
