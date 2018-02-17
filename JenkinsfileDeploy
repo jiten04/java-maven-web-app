@@ -21,6 +21,7 @@ pipeline {
         stage('RunDockerImage') { 
             steps {
                 sh "docker stop MyApp"
+                sh "docker ps -aq --no-trunc | xargs docker rm"
                 sh "docker run -d -p 8080:8080 --name=MyApp alamgirm/myapp:latest  /bin/bash" 
             }
         }
