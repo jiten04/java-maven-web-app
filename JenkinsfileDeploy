@@ -1,0 +1,26 @@
+env.DOCKERHUB_USERNAME='alamgirm'
+#env.APPBUILD_ID='16'
+pipeline {
+    //agent  any
+     agent { 
+         node { 
+             label 'deploymenthost' //Production host node, set as slave in Jenkins 
+         } 
+     }
+    stages {
+        stage('PullDockerImage') {
+            steps {
+                  withDockerRegistry([credentialsId: 'dockerhub', url: 'https://hub.docker.com/']) {  
+                      sh "echo $APPBUILD_ID"
+                      sh "docker pull ${DOCKERHUB_USERNAME}/myapp:${APPBUILD_ID}"
+                  }
+            }
+        }
+        
+        stage('RunDockerImage') { 
+            steps {
+                sh 'docker images' 
+            }
+        }
+    }
+}
