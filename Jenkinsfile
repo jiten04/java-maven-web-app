@@ -39,7 +39,7 @@ pipeline {
         }
         
         // Push the built image
-        stage('BuildDockerImage') {
+        stage('PushDockerImage') {
             steps {
                  withDockerRegistry([credentialsId: 'dockerhub', url: 'hhttps://hub.docker.com/']) {
                      sh "docker push ${DOCKERHUB_USERNAME}_myapp:${BUILD_NUMBER}"
