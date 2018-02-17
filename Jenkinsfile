@@ -1,4 +1,5 @@
-env.DOCKERHUB_USERNAME = 'alamgirm'
+env.DOCKERHUB_USERNAME='alamgirm'
+env.APPBUILDID="${BUILD_NUMBER}"
 pipeline {
     //agent  any
      agent { 
