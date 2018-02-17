@@ -20,7 +20,8 @@ pipeline {
         // run the docker image
         stage('RunDockerImage') { 
             steps {
-                sh "docker run -d -p 8080:8080 alamgirm/myapp:latest  /bin/bash" 
+                sh "docker stop MyApp"
+                sh "docker run -d -p 8080:8080 -name=MyApp alamgirm/myapp:latest  /bin/bash" 
             }
         }
     }
