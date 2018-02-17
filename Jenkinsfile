@@ -1,3 +1,10 @@
+// Alamgir Mohammed
+// Jenkins file for Build
+// invoked by the Pipeline plugin of Jenkins
+// This pipeline (1) clones git repo (2) builds the maven project  (3) builds a docker image with the built app
+// (4) Pushes the docke image to docker hub.
+
+
 env.DOCKERHUB_USERNAME='alamgirm'
 //env.APPBUILD_ID="${BUILD_NUMBER}"
 pipeline {
@@ -49,15 +56,5 @@ pipeline {
                  }
             }
         }
-        
-        // push the built image
-       /* stage('Push image') {
-           steps {
-                docker.withRegistry('https://cloud.docker.com/swarm/alamgirm/dashboard/onboarding/cloud-registry', 'dockerhub') {
-                    def customImage = docker.build("${env.DOCKERHUB_USERNAME}_myapp:${env.BUILD_ID}")
-                    customImage.push()
-                }
-            }
-        }*/
     }
 }
