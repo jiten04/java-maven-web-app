@@ -1,3 +1,7 @@
+// Alamgir Mohammed
+// Jenkins file for Deployment
+// invoked by the Pipeline plugin of Jenkins
+
 env.DOCKERHUB_USERNAME='alamgirm'
 //env.APPBUILD_ID='16'
 pipeline {
@@ -12,16 +16,21 @@ pipeline {
         stage('PullDockerImage') {
             steps {
                   withDockerRegistry([credentialsId: 'dockerhub', url: 'https://hub.docker.com/']) {  
-                      //sh "echo $APP_BUILD_ID"
+                      //Pull the latest image
                       sh "docker pull ${DOCKERHUB_USERNAME}/myapp:latest"
+                      //remove dangling old images
+                      sh "docker images -q --filter dangling=true | xargs docker rmi"
                   }
             }
         }
         // run the docker image
         stage('RunDockerImage') { 
             steps {
+                // stop currently running App
                 sh "docker stop MyApp"
+                // Remove old containers
                 sh "docker ps -aq --no-trunc | xargs docker rm"
+                // Run the newest image
                 sh "docker run -d -p 8080:8080 --name=MyApp alamgirm/myapp:latest  /bin/bash" 
             }
         }
