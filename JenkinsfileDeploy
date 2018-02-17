@@ -12,7 +12,7 @@ pipeline {
             steps {
                   withDockerRegistry([credentialsId: 'dockerhub', url: 'https://hub.docker.com/']) {  
                       sh "echo $APP_BUILD_ID"
-                      #sh "docker pull ${DOCKERHUB_USERNAME}/myapp:${APP_BUILD_ID}"
+                      //sh "docker pull ${DOCKERHUB_USERNAME}/myapp:${APP_BUILD_ID}"
                   }
             }
         }
