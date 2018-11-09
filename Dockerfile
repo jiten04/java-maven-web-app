@@ -1,5 +1,5 @@
 FROM openjdk:8-jre
-MAINTAINER Alamgir Mohammed <alamgir99@gmail.com>
+MAINTAINER jitendra kumar <jitendrakumar04@gmail.com>
 # create the whole path
 RUN mkdir -p /usr/share/myapp/lib
 
