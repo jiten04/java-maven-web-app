@@ -9,12 +9,7 @@ env.DOCKERHUB_USERNAME='alamgirm'
 //env.APPBUILD_ID="${BUILD_NUMBER}"
 pipeline {
     //agent  any
-     agent { 
-         node { 
-             label 'jkslave' //Jenkins Slave  
-         } 
-     }
-    stages {
+      stages {
         stage('Clone') {
             steps {
                 git 'https://github.com/alamgirm/java-maven-web-app.git'
