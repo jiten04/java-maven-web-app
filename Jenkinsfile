@@ -1,23 +1,23 @@
-// Alamgir Mohammed
+// Jitendra Kumar
 // Jenkins file for Build
 // invoked by the Pipeline plugin of Jenkins
 // This pipeline (1) clones git repo (2) builds the maven project  (3) builds a docker image with the built app
 // (4) Pushes the docke image to docker hub.
 
 
-env.DOCKERHUB_USERNAME='alamgirm'
+env.DOCKERHUB_USERNAME='33fd7a2cbe06'
 //env.APPBUILD_ID="${BUILD_NUMBER}"
 pipeline {
     //agent  any
-    agent { 
+     agent { 
          node { 
              label 'master' //Jenkins master  
          } 
      }
-      stages {
+    stages {
         stage('Clone') {
             steps {
-                git 'https://github.com/alamgirm/java-maven-web-app.git'
+                git 'https://github.com/jiten04/java-maven-web-app.git'
             }
         }
         
