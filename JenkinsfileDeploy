@@ -1,14 +1,75 @@
-// Alamgir Mohammed
+// Jitendra Kumar
+// Jenkins file for Build
+// invoked by the Pipeline plugin of Jenkins
+// This pipeline (1) clones git repo (2) builds the maven project  (3) builds a docker image with the built app
+// (4) Pushes the docke image to docker hub.
+
+
+env.DOCKERHUB_USERNAME='33fd7a2cbe06'
+//env.APPBUILD_ID="${BUILD_NUMBER}"
+pipeline {
+    //agent  any
+     agent { 
+         node { 
+             label 'master' //Jenkins master  
+         } 
+     }
+    stages {
+        stage('Clone') {
+            steps {
+                git 'https://github.com/jiten04/java-maven-web-app.git'
+            }
+        }
+        
+        stage('Build') { 
+            steps {
+                sh 'mvn -B -DskipTests clean package' 
+            }
+        }
+        /*
+        stage('Test') { 
+            steps {
+                sh 'mvn test' 
+            }
+            post {
+                always {
+                    junit 'target/surefire-reports/*.xml' 
+                }
+            }
+        }
+        */
+        
+        // Build docker iamge 
+        stage('BuildDockerImage') {
+             steps {
+                //sh "docker build -t ${DOCKERHUB_USERNAME}/myapp:${BUILD_NUMBER}  ."
+                 sh "docker build -t ${DOCKERHUB_USERNAME}/myapp:latest  ."
+            }
+        }
+        
+        // Push the built image
+        stage('PushDockerImage') {
+            steps {
+                 withDockerRegistry([credentialsId: 'dockerhub', url: 'https://hub.docker.com/']) {
+                     //sh "docker push ${DOCKERHUB_USERNAME}/myapp:${BUILD_NUMBER}"
+                     sh "docker push ${DOCKERHUB_USERNAME}/myapp:latest"
+                 }
+            }
+        }
+    }
+}
+root@ip-172-31-40-133:~/gitrepo/java-maven-web-app# cat JenkinsfileDeploy 
+// Jitendra Kumar
 // Jenkins file for Deployment
 // invoked by the Pipeline plugin of Jenkins
 
-env.DOCKERHUB_USERNAME='alamgirm'
+env.DOCKERHUB_USERNAME='33fd7a2cbe06'
 //env.APPBUILD_ID='16'
 pipeline {
     //agent  any
      agent { 
          node { 
-             label 'deploymenthost' //Production host node, set as slave in Jenkins 
+             label 'deploymenthost' //Production host node, set as master in Jenkins 
          } 
      }
     stages {
@@ -31,7 +92,7 @@ pipeline {
                 // Remove old containers
                 sh "docker ps -aq --no-trunc | xargs docker rm"
                 // Run the newest image
-                sh "docker run -d -p 8080:8080 --name=MyApp alamgirm/myapp:latest  /bin/bash" 
+                sh "docker run -d -p 8080:8080 --name=MyApp jiten/myapp:latest  /bin/bash" 
             }
         }
     }
