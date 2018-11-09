@@ -9,6 +9,11 @@ env.DOCKERHUB_USERNAME='alamgirm'
 //env.APPBUILD_ID="${BUILD_NUMBER}"
 pipeline {
     //agent  any
+    agent { 
+         node { 
+             label 'master' //Jenkins master  
+         } 
+     }
       stages {
         stage('Clone') {
             steps {
