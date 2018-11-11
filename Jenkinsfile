@@ -48,13 +48,14 @@ pipeline {
         }
         
         // Push the built image
-        stage('PushDockerImage') {
-            steps {
-                 withDockerRegistry([credentialsId: 'dockerhub', url: 'https://hub.docker.com/']) {
-                     //sh "docker push ${DOCKERHUB_USERNAME}/myapp:${BUILD_NUMBER}"
-                     sh "docker push ${DOCKERHUB_USERNAME}/myapp:latest"
-                 }
-            }
+        stage('Push image') {
+        /* Finally, we'll push the image with two tags:
+         * First, the incremental build number from Jenkins
+         * Second, the 'latest' tag.
+         * Pushing multiple tags is cheap, as all the layers are reused. */
+        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+            app.push("${env.BUILD_NUMBER}")
+            app.push("latest")
         }
     }
 }
