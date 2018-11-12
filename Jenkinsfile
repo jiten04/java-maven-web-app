@@ -56,5 +56,18 @@ pipeline {
                  }
             }
         }
+     // run the docker image
+        stage('RunDockerImage') {
+            steps {
+                // stop currently running App
+                sh "docker stop MyApp"
+                // Remove old containers
+                sh "docker ps -aq --no-trunc | xargs docker rm"
+                // Run the newest image
+                sh "docker run -d -p 8081:8080 --name=MyApp 33fd7a2cbe06/myapp:latest  /bin/bash"
+            }
+        }
     }
 }
+
+
